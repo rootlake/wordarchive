@@ -2,7 +2,7 @@ name: Scrape and Deploy
 
 on:
   schedule:
-    # Run every day at 3:00 UTC (avoiding midnight when many other actions run)
+    # Run every day at 3:00 UTC
     - cron: '0 3 * * *'
   
   # Allow manual triggers for testing
@@ -19,7 +19,7 @@ permissions:
   id-token: write
 
 jobs:
-  scrape-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -37,37 +37,20 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install requests beautifulsoup4
       
       - name: Run scraper
         run: |
           python scraper.py
           
-      - name: Commit scraper changes
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add words.json words.txt metadata.json
-          git diff --staged --quiet || git commit -m "Update Wordle archive - $(date +'%Y-%m-%d')"
-          git push || echo "No changes to push"
-          
-      - name: Setup Pages
+      - name: Configure GitHub Pages
         uses: actions/configure-pages@v3
         
-      - name: Create deploy directory
-        run: |
-          mkdir -p _site
-          cp index.html _site/
-          cp style.css _site/
-          cp script.js _site/
-          cp words.json _site/
-          cp metadata.json _site/
-          
-      - name: Upload artifact
+      - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: '_site'
+          path: '.'
           
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2 
+        uses: actions/deploy-pages@v2
+        id: deployment 
