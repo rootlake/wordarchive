@@ -5,10 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Past Wordle Answers</title>
     <link rel="stylesheet" href="./style.css">
+    <!-- Additional fail-safe for GitHub Pages -->
+    <script>
+        // Check if the CSS loaded correctly
+        window.addEventListener('load', function() {
+            // Create a test element
+            var test = document.createElement('div');
+            test.className = 'css-test';
+            document.body.appendChild(test);
+            
+            // Check if styles were applied
+            var styles = getComputedStyle(test);
+            var bgColor = styles.backgroundColor;
+            
+            // If CSS didn't load, add inline emergency styles
+            if (!bgColor || bgColor === 'rgba(0, 0, 0, 0)') {
+                console.warn('External CSS may not have loaded, applying emergency styles');
+                var emergencyStyles = document.createElement('style');
+                emergencyStyles.textContent = `
+                    body {
+                        font-family: sans-serif;
+                        margin: 0;
+                        padding: 0;
+                        background-color: #121212;
+                        color: #e0e0e0;
+                        display: flex;
+                        flex-direction: column;
+                        min-height: 100vh;
+                    }
+                    .word-item {
+                        display: inline-block;
+                        background-color: #2a2a2a;
+                        border: 1px solid #444;
+                        padding: 5px 10px;
+                        margin: 5px;
+                        border-radius: 3px;
+                        font-size: 1.1em;
+                        text-transform: uppercase;
+                        color: #e0e0e0;
+                    }
+                    #letter-index-container {
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        padding: 10px;
+                        background-color: #1e1e1e;
+                        border-top: 1px solid #444;
+                    }
+                    .letter-index-button {
+                        padding: 8px 12px;
+                        margin: 4px;
+                        background-color: #2a2a2a;
+                        border: 1px solid #444;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        text-decoration: none;
+                        color: #5cb85c;
+                        font-weight: bold;
+                    }
+                    .word-group h2 {
+                        border-bottom: 2px solid #5cb85c;
+                        padding-bottom: 5px;
+                        margin-top: 0;
+                        font-size: 1.5em;
+                    }
+                `;
+                document.head.appendChild(emergencyStyles);
+            }
+            
+            // Clean up
+            document.body.removeChild(test);
+        });
+    </script>
+    <style>
+        .css-test {
+            display: none;
+            background-color: red;
+        }
+    </style>
 </head>
 <body>
-    <div id="letter-index-container"></div>
     <main id="word-list-container"></main>
+    <div id="letter-index-container"></div>
     <footer>
         <p>Words sourced from Rock Paper Shotgun. This page is for personal use and learning.</p>
     </footer>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Debug</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .test-box {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .test-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #5cb85c;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1>CSS Debug Test</h1>
+    <p>This page tests if CSS is being loaded correctly.</p>
+    
+    <div class="test-box">
+        <h2>Inline CSS Test</h2>
+        <p>This box should have a dark background and light text.</p>
+        <a href="#" class="test-button">Test Button</a>
+    </div>
+    
+    <div class="test-box">
+        <h2>External CSS Test</h2>
+        <p>Below are elements styled with external CSS:</p>
+        <div class="word-item">WORD</div>
+        <div class="word-item">TEST</div>
+        <a href="#" class="letter-index-button">A</a>
+        <a href="#" class="letter-index-button">B</a>
+    </div>
+    
+    <div class="test-box">
+        <h2>CSS Path Test</h2>
+        <p>External CSS path: <code>./style.css</code></p>
+        <p>Try loading with different paths:</p>
+        <ul>
+            <li><a href="?path=style.css">style.css</a></li>
+            <li><a href="?path=/style.css">/style.css</a></li>
+            <li><a href="?path=/wordarchive/style.css">/wordarchive/style.css</a></li>
+        </ul>
+    </div>
+</body>
+</html> 
