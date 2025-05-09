@@ -25,7 +25,7 @@ jobs:
           npm ci || npm install
       
       - name: Run word fetching script
-        run: node fetch-words.js
+        run: node scripts/fetch-words.js
         
       - name: Check for changes
         id: git-check

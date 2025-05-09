@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "fetch-words": "node fetch-words.js"
+    "fetch-words": "node scripts/fetch-words.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
