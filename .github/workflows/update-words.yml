@@ -1,4 +1,4 @@
-name: Update Wordle Words
+name: Update Words and Deploy
 
 on:
   schedule:
@@ -6,10 +6,27 @@ on:
     - cron: '0 0 * * *'
   # Allow manual triggering of the workflow
   workflow_dispatch:
+  # Also run on pushes to main branch
+  push:
+    branches: [ main ]
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  update-words:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
       - name: Checkout repository
@@ -21,34 +38,28 @@ jobs:
           node-version: '16'
           
       - name: Install dependencies
-        run: |
-          npm ci || npm install
+        run: npm ci || npm install
       
-      - name: Run word fetching script
+      - name: Fetch Wordle answers
         run: node scripts/fetch-words.js
         
-      - name: Copy words.json to docs directory
-        run: |
-          # Ensure docs directory exists 
-          mkdir -p docs
-          # Copy words.json to docs directory
-          cp words.json docs/words.json
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
         
-      - name: Check for changes
-        id: git-check
+      - name: Build site
         run: |
-          git status --porcelain
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "changes=true" >> $GITHUB_OUTPUT
-          else
-            echo "changes=false" >> $GITHUB_OUTPUT
-          fi
+          # Ensure words.json is in place for the build
+          npm run build
+          # Copy words.json to the dist directory
+          cp words.json dist/
+          # Ensure script.js is properly in the dist directory
+          cp script.js dist/
           
-      - name: Commit and push if there are changes
-        if: steps.git-check.outputs.changes == 'true'
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add words.json docs/words.json
-          git commit -m "Update Wordle words - $(date +'%Y-%m-%d')"
-          git push 
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: 'dist'
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2 

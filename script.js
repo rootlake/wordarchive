@@ -1,3 +1,4 @@
+// Use ES modules syntax for Vite compatibility
 document.addEventListener('DOMContentLoaded', () => {
     const wordListContainer = document.getElementById('word-list-container');
     const letterIndexContainer = document.getElementById('letter-index-container');
