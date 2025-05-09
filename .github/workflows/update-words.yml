@@ -27,6 +27,13 @@ jobs:
       - name: Run word fetching script
         run: node scripts/fetch-words.js
         
+      - name: Copy words.json to docs directory
+        run: |
+          # Ensure docs directory exists 
+          mkdir -p docs
+          # Copy words.json to docs directory
+          cp words.json docs/words.json
+        
       - name: Check for changes
         id: git-check
         run: |
@@ -42,6 +49,6 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add words.json
+          git add words.json docs/words.json
           git commit -m "Update Wordle words - $(date +'%Y-%m-%d')"
           git push 

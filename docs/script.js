@@ -16,6 +16,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Add last updated info at the top
+        const lastUpdated = document.createElement('div');
+        lastUpdated.classList.add('last-updated');
+        lastUpdated.innerHTML = `
+            <p>Found ${words.length} Wordle answers. 
+            List automatically updates daily. Last refresh: ${new Date().toLocaleString()}</p>
+        `;
+        wordListContainer.appendChild(lastUpdated);
+
         words.sort();
 
         const wordsByLetter = {};
