@@ -2,18 +2,19 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
 header {
-    background-color: #5cb85c; /* Wordle green */
-    color: white;
+    background-color: #333; /* Darker header */
+    color: #5cb85c; /* Wordle green for text */
     padding: 1em 0;
     text-align: center;
+    border-bottom: 1px solid #444; /* Subtle border */
 }
 
 header h1 {
@@ -25,8 +26,8 @@ header h1 {
     flex-wrap: wrap;
     justify-content: center;
     padding: 10px;
-    background-color: #eee;
-    border-bottom: 1px solid #ddd;
+    background-color: #1e1e1e; /* Slightly lighter dark for index */
+    border-bottom: 1px solid #444;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -35,18 +36,18 @@ header h1 {
 .letter-index-button {
     padding: 8px 12px;
     margin: 4px;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: #2a2a2a; /* Dark buttons */
+    border: 1px solid #444;
     border-radius: 4px;
     cursor: pointer;
     text-decoration: none;
-    color: #337ab7; /* Bootstrap primary blue */
+    color: #5cb85c; /* Wordle green for button text */
     font-weight: bold;
 }
 
 .letter-index-button:hover {
-    background-color: #e6e6e6;
-    border-color: #adadad;
+    background-color: #3a3a3a; /* Darker hover for buttons */
+    border-color: #555;
 }
 
 main {
@@ -59,32 +60,35 @@ main {
 }
 
 .word-group h2 {
-    border-bottom: 2px solid #5cb85c;
+    border-bottom: 2px solid #5cb85c; /* Wordle green accent */
     padding-bottom: 5px;
     margin-top: 0;
     font-size: 1.5em;
+    color: #e0e0e0; /* Light text for headings */
 }
 
 .word-item {
-    display: inline-block; /* Makes words flow nicely */
-    background-color: #fff;
-    border: 1px solid #ddd;
+    display: inline-block;
+    background-color: #2a2a2a; /* Dark item background */
+    border: 1px solid #444;
     padding: 5px 10px;
     margin: 5px;
     border-radius: 3px;
     font-size: 1.1em;
     text-transform: uppercase;
+    color: #e0e0e0; /* Light text for words */
 }
 
 footer {
     text-align: center;
     padding: 10px;
-    background-color: #333;
-    color: #f4f4f4;
+    background-color: #1e1e1e; /* Dark footer */
+    color: #aaa; /* Lighter grey for footer text */
     font-size: 0.9em;
+    border-top: 1px solid #444;
 }
 
-/* Mobile-specific adjustments */
+/* Mobile-specific adjustments (remain largely the same, dark theme is global) */
 @media (max-width: 600px) {
     header h1 {
         font-size: 1.5em;
