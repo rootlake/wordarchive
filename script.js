@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    function displayWords(words) {
+    function displayWords(words, metadata) {
         wordListContainer.innerHTML = ''; // Clear previous words
         letterIndexContainer.innerHTML = ''; // Clear previous index
 
@@ -19,10 +19,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add last updated info at the top
         const lastUpdated = document.createElement('div');
         lastUpdated.classList.add('last-updated');
-        lastUpdated.innerHTML = `
-            <p>Found ${words.length} Wordle answers. 
-            List automatically updates daily. Last refresh: ${new Date().toLocaleString()}</p>
-        `;
+        
+        let lastUpdatedText = `Found ${words.length} Wordle answers. List automatically updates daily.`;
+        
+        if (metadata && metadata.last_updated) {
+            try {
+                const updateDate = new Date(metadata.last_updated);
+                lastUpdatedText += ` Last refresh: ${updateDate.toLocaleString()}`;
+            } catch (e) {
+                console.error('Error parsing date:', e);
+                lastUpdatedText += ` Last refresh: ${metadata.last_updated}`;
+            }
+        } else {
+            lastUpdatedText += ` Last refresh: ${new Date().toLocaleString()}`;
+        }
+        
+        lastUpdated.innerHTML = `<p>${lastUpdatedText}</p>`;
         wordListContainer.appendChild(lastUpdated);
 
         words.sort();
@@ -78,22 +90,53 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add a loading indicator
     wordListContainer.innerHTML = '<p>Loading Wordle answers...</p>';
 
-    // Fetch the words from words.json
-    fetch('./words.json')
+    // Fetch metadata.json first
+    fetch('./metadata.json')
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Could not load metadata');
             }
             return response.json();
         })
+        .then(metadata => {
+            // Now fetch words.json
+            return fetch('./words.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json().then(words => ({ words, metadata }));
+                });
+        })
         .then(data => {
-            displayWords(data); // `data` is the array of words
+            displayWords(data.words, data.metadata);
         })
         .catch(error => {
-            console.error('Error fetching or parsing words.json:', error);
-            wordListContainer.innerHTML = `
-                <p>Could not load word list. The GitHub Action may not have run yet or encountered an error.</p>
-                <p>Technical details: ${error.message}</p>
-            `;
+            console.error('Error fetching data:', error);
+            // If we failed to get metadata, try just getting the words
+            if (error.message === 'Could not load metadata') {
+                fetch('./words.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(words => {
+                        displayWords(words, null);
+                    })
+                    .catch(wordsError => {
+                        console.error('Error fetching words.json:', wordsError);
+                        wordListContainer.innerHTML = `
+                            <p>Could not load word list. The GitHub Action may not have run yet or encountered an error.</p>
+                            <p>Technical details: ${wordsError.message}</p>
+                        `;
+                    });
+            } else {
+                wordListContainer.innerHTML = `
+                    <p>Could not load word list. The GitHub Action may not have run yet or encountered an error.</p>
+                    <p>Technical details: ${error.message}</p>
+                `;
+            }
         });
 }); 

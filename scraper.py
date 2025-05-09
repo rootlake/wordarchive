@@ -3,7 +3,7 @@ import json
 import re
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, timezone
 
 # URL for Rock Paper Shotgun's Wordle past answers page
 URL = "https://www.rockpapershotgun.com/wordle-past-answers"
@@ -66,9 +66,9 @@ def save_results(word_list):
     with open('words.txt', 'w') as f:
         f.write('\n'.join(word_list))
     
-    # Save metadata with timestamp
+    # Save metadata with timestamp (use UTC time to avoid timezone issues)
     metadata = {
-        "last_updated": datetime.now().isoformat(),
+        "last_updated": datetime.now(timezone.utc).isoformat(),
         "word_count": len(word_list),
         "source": URL
     }
