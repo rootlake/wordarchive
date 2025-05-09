@@ -17,11 +17,12 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  actions: write
 
 # Allow only one concurrent deployment
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   scrape-build-deploy:
@@ -33,6 +34,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -85,7 +88,9 @@ jobs:
       - name: Copy required files to dist
         run: |
           # Ensure words.json is available for the frontend
-          cp words.json dist/
+          cp words.json dist/ || true
+          # Make sure script.js is available with type="module"
+          cp script.js dist/ || true
           
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
