@@ -1,0 +1,105 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #5cb85c; /* Wordle green */
+    color: white;
+    padding: 1em 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+#letter-index-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+    background-color: #eee;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.letter-index-button {
+    padding: 8px 12px;
+    margin: 4px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #337ab7; /* Bootstrap primary blue */
+    font-weight: bold;
+}
+
+.letter-index-button:hover {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+main {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.word-group {
+    margin-bottom: 20px;
+}
+
+.word-group h2 {
+    border-bottom: 2px solid #5cb85c;
+    padding-bottom: 5px;
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+.word-item {
+    display: inline-block; /* Makes words flow nicely */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 3px;
+    font-size: 1.1em;
+    text-transform: uppercase;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: #f4f4f4;
+    font-size: 0.9em;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+    .letter-index-button {
+        padding: 6px 10px;
+        margin: 3px;
+        font-size: 0.9em;
+    }
+    .word-item {
+        font-size: 1em;
+        padding: 4px 8px;
+        margin: 3px;
+    }
+    main {
+        padding: 10px;
+    }
+} 
