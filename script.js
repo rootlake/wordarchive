@@ -1,4 +1,3 @@
-// Use ES modules syntax for Vite compatibility
 document.addEventListener('DOMContentLoaded', () => {
     const wordListContainer = document.getElementById('word-list-container');
     const letterIndexContainer = document.getElementById('letter-index-container');
@@ -80,12 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     wordListContainer.innerHTML = '<p>Loading Wordle answers...</p>';
 
     // Fetch the words from words.json
-    // Handle both local and GitHub Pages paths
-    const wordsJsonPath = window.location.pathname.includes('/wordarchive/') 
-        ? 'words.json'  // In GitHub Pages
-        : 'words.json'; // Local development
-        
-    fetch(wordsJsonPath)
+    fetch('./words.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');

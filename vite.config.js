@@ -5,17 +5,20 @@ export default defineConfig({
   plugins: [
     qrcode() // This will show a QR code in the terminal
   ],
-  base: '/wordarchive/', // Set the base path for GitHub Pages
+  base: './',
   server: {
     open: true // Automatically open browser when starting dev server
   },
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    minify: false, // Disable minification for easier debugging
+    cssCodeSplit: false,
     rollupOptions: {
-      // Make sure script.js is directly copied to output
-      input: {
-        main: './index.html'
+      output: {
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name].[ext]'
       }
     }
   }

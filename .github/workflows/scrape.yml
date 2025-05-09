@@ -91,9 +91,11 @@ jobs:
           cp words.json dist/ || true
           # Make sure script.js is available with type="module"
           cp script.js dist/ || true
+          # Make sure style.css is in dist folder
+          cp style.css dist/ || true
           
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: 'dist'
           
